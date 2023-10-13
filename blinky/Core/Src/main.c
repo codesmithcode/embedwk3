@@ -98,6 +98,12 @@ int main(void)
   MX_USB_PCD_Init();
   /* USER CODE BEGIN 2 */
   bool greenToggleCyle = true;
+  bool lightsOn = true;
+  uint32_t lastStateChangeMs;
+  bool pendingButtonDown = false;
+  bool buttonDownState = false;
+  uint32_t debounceMs = 1000;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -107,10 +113,36 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	if(greenToggleCyle) {
+
+	bool readButtonDown = HAL_GPIO_ReadPin (GPIOA, GPIO_PIN_0) > 0;
+	if (readButtonDown != pendingButtonDown) {
+		lastStateChangeMs = HAL_GetTick();
+		pendingButtonDown = readButtonDown;
+	}
+	if ( (HAL_GetTick() - lastStateChangeMs) > debounceMs && pendingButtonDown != buttonDownState) {
+		buttonDownState = pendingButtonDown;
+		if(buttonDownState) {
+			lightsOn = !lightsOn;
+		}
+	}
+
+	if (!lightsOn) {
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 0);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_9, 0);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, 0);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, 0);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, 0);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_13, 0);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_14, 0);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, 0);
+		continue;
+	}
+
+	if (greenToggleCyle) {
 		HAL_GPIO_TogglePin (GPIOE, GPIO_PIN_11);
 		HAL_GPIO_TogglePin (GPIOE, GPIO_PIN_15);
 	}
+
 	greenToggleCyle = !greenToggleCyle;
 
 	HAL_GPIO_TogglePin (GPIOE, GPIO_PIN_8);
