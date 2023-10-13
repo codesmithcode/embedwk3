@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdbool.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -97,7 +97,7 @@ int main(void)
   MX_SPI1_Init();
   MX_USB_PCD_Init();
   /* USER CODE BEGIN 2 */
-
+  bool greenToggleCyle = true;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -107,6 +107,21 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	if(greenToggleCyle) {
+		HAL_GPIO_TogglePin (GPIOE, GPIO_PIN_11);
+		HAL_GPIO_TogglePin (GPIOE, GPIO_PIN_15);
+	}
+	greenToggleCyle = !greenToggleCyle;
+
+	HAL_GPIO_TogglePin (GPIOE, GPIO_PIN_8);
+	HAL_GPIO_TogglePin (GPIOE, GPIO_PIN_12);
+	HAL_Delay (150);
+	HAL_GPIO_TogglePin (GPIOE, GPIO_PIN_9);
+	HAL_GPIO_TogglePin (GPIOE, GPIO_PIN_13);
+	HAL_Delay (150);
+	HAL_GPIO_TogglePin (GPIOE, GPIO_PIN_10);
+	HAL_GPIO_TogglePin (GPIOE, GPIO_PIN_14);
+	HAL_Delay (150);
   }
   /* USER CODE END 3 */
 }
