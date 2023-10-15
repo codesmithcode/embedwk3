@@ -1,19 +1,24 @@
 Repo for the week 3 assignment on blinky lights
 https://classpert.com/classpertx/courses/making-embedded-systems/cohort
 
-Board: stm32f3discovery (https://www.st.com/en/evaluation-tools/stm32f3discovery.html)
+Board: 
+======
+
+stm32f3discovery (https://www.st.com/en/evaluation-tools/stm32f3discovery.html)
 
 Summary:
+========
 - Button used to turn on / off playback of LED sequence
 - Button signal is debounced
 - Debugging info via printf / uart
-- Coming soon: Interrupt driven button + debounce
+- Button and debounce are implemented via interrupt handling
 
 Build environment:
+==================
 - STM32CubeMxIDE
 
 Further investigation:
-
+======================
 
 1. What are the hardware registers that cause the LED to turn on and off? (From the processor manual, don’t worry about initialization.)
 
